@@ -13,17 +13,21 @@ const { PORT } = process.env;
 
 // import express
 const express = require("express");
+const userRoutes = require('./routes/userRoutes');
+const petRoutes = require('./routes/petRoutes');
 
 // create application object
 const app = express();
 
+// Middleware
+app.use(express.json());
+
 ///////////////////////////////
 // ROUTES
 ////////////////////////////////
-// create a test route
-app.get("/", (req, res) => {
-    res.send("hello world");
-});
+
+app.use('/api/users', userRoutes);
+app.use('/api', petRoutes);
 
 ///////////////////////////////
 // LISTENER
