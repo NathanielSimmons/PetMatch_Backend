@@ -5,6 +5,9 @@
 // initialize .env variables
 require("dotenv").config();
 
+// start the mongoose db connection
+require('./config/db.connection.js')
+
 // pull PORT from .env, give default value of 4000 and establish DB Connection
 const { PORT } = process.env;
 
