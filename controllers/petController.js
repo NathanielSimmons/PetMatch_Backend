@@ -1,24 +1,21 @@
 const Pet = require('../models/Pet');
 
 exports.createPet = async (req, res) => {
+  
   try {
-    // Logic to create a new pet profile
     const { name, breed, age, personality } = req.body;
 
-    // Validate input data
+    
     if (!name || !breed || !age || !personality) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
-    // Create a new pet instance
-    const newPet = new Pet({
-      name,
-      breed,
-      age,
-      personality
-    });
+    
+    const newPet = new Pet(
+     req.body
+    );
 
-    // Save pet to the database
+    
     await newPet.save();
 
     res.status(201).json({ message: 'Pet profile created successfully' });
@@ -29,7 +26,7 @@ exports.createPet = async (req, res) => {
 
 exports.getAllPets = async (req, res) => {
   try {
-    // Logic to fetch all pets from the database
+    
     const pets = await Pet.find();
     res.status(200).json(pets);
   } catch (error) {
@@ -41,7 +38,7 @@ exports.getPetById = async (req, res) => {
     try {
       const petId = req.params.id;
       
-      // Logic to fetch a pet by its ID from the database
+      
       const pet = await Pet.findById(petId);
   
       if (!pet) {
@@ -59,7 +56,7 @@ exports.getPetById = async (req, res) => {
       const petId = req.params.id;
       const updateData = req.body;
   
-      // Logic to update a pet by its ID in the database
+      
       const updatedPet = await Pet.findByIdAndUpdate(petId, updateData, { new: true });
   
       if (!updatedPet) {
@@ -76,7 +73,7 @@ exports.getPetById = async (req, res) => {
     try {
       const petId = req.params.id;
   
-      // Logic to delete a pet by its ID from the database
+      
       const deletedPet = await Pet.findByIdAndDelete(petId);
   
       if (!deletedPet) {

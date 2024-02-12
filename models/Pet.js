@@ -11,13 +11,13 @@ const petSchema = new mongoose.Schema({
   },
   breed: String,
   age: Number,
-  personalityTraits: [String],
+  personality: String,
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true
   },
-  pictures: [String]
+  pictures: String
 }, { timestamps: true });
 
 const Pet = mongoose.model('Pet', petSchema);
