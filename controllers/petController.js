@@ -1,25 +1,24 @@
+const User = require('../models/User');
 const Pet = require('../models/Pet');
 
 exports.createPet = async (req, res) => {
-  
   try {
-    const { name, breed, age, personality } = req.body;
+    const { name, species, breed, age, personality, pictures } = req.body;
 
-    
-    if (!name || !breed || !age || !personality) {
-      return res.status(400).json({ error: 'All fields are required' });
-    }
+    const newPet = new Pet({
+      name,
+      species,
+      breed,
+      age,
+      personality,
+      pictures
+    });
 
-    
-    const newPet = new Pet(
-     req.body
-    );
-
-    
     await newPet.save();
 
     res.status(201).json({ message: 'Pet profile created successfully' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };

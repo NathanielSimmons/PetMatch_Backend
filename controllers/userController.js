@@ -9,7 +9,7 @@ exports.signup = async (req, res) => {
       return res.status(400).json({ error: 'User with this email already exists' });
     }
 
-    // Save password in plain text (not recommended for production)
+    
     const newUser = new User({ username, email, password, profilePic, aboutMe });
     await newUser.save();
 
@@ -29,17 +29,16 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: 'Invalid email' });
     }
 
-    // Compare passwords (in plain text)
     if (user.password !== password) {
       return res.status(401).json({ error: 'Invalid password' });
     }
-
-    res.status(200).json({ message: 'User logged in successfully' });
+    res.status(200).json(user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 
 exports.logout = async (req, res) => {
   try {
@@ -50,3 +49,20 @@ exports.logout = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+exports.getUserById = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+

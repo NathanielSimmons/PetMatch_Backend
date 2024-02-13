@@ -14,7 +14,6 @@ const { PORT } = process.env;
 // import express
 const express = require("express");
 const cors = require('cors');
-const crypto = require("crypto");
 const userRoutes = require('./routes/userRoutes');
 const petRoutes = require('./routes/petRoutes');
 
@@ -27,7 +26,6 @@ app.use(express.json());
 app.use(cors({
     origin: 'http://localhost:5173'
   }));
-
 ///////////////////////////////
 // ROUTES
 ////////////////////////////////
