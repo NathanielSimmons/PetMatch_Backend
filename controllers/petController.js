@@ -3,7 +3,7 @@ const Pet = require('../models/Pet');
 
 exports.createPet = async (req, res) => {
   try {
-    const { name, species, breed, age, personality, pictures } = req.body;
+    const { name, species, breed, age, personality, pictures, owner } = req.body;
 
     const newPet = new Pet({
       name,
@@ -11,12 +11,12 @@ exports.createPet = async (req, res) => {
       breed,
       age,
       personality,
-      pictures
+      pictures,
+      owner
     });
 
     await newPet.save();
-
-    res.status(201).json({ message: 'Pet profile created successfully' });
+    res.status(201).json({message: 'Pet added successfully'});
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
