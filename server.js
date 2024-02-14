@@ -16,6 +16,7 @@ const express = require("express");
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const petRoutes = require('./routes/petRoutes');
+const matchRoutes = require('./routes/matchRoutes');
 
 // create application object
 const app = express();
@@ -32,7 +33,7 @@ app.use(cors({
 
 app.use('/api/users', userRoutes);
 app.use('/api', petRoutes);
-
+app.use('/api/match', matchRoutes);
 ///////////////////////////////
 // LISTENER
 ////////////////////////////////
