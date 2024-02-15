@@ -42,7 +42,6 @@ exports.login = async (req, res) => {
 
 exports.logout = async (req, res) => {
   try {
-    // Your logout logic here
     res.status(200).json({ message: 'User logged out successfully' });
   } catch (error) {
     console.error(error);
