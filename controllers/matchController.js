@@ -60,11 +60,12 @@ exports.skipPet = async (req, res) => {
 };
 
 exports.getMatchedPets = async (req, res) => {
-  const { userId } = req.query;
+  const { userId } = req.query; 
+ 
 
   try {
     const matches = await Match.find({ user: userId }).populate('pet');
-    const matchedPets = matches.map(match => match.pet);
+    const matchedPets = matches.map((match) => match.pet);
     res.json(matchedPets);
   } catch (error) {
     console.error('Error fetching matched pets:', error);
