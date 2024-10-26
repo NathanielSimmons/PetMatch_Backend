@@ -20,7 +20,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: 'https://pet-match-frontend-906kkevwn-nathaniel-simmons-projects.vercel.app'
+    origin: 'https://pet-match-frontend.vercel.app'
   }));
 
 //Server status endpoint
