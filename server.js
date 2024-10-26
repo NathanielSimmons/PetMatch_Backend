@@ -20,7 +20,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:5173'
+    origin: 'https://pet-match-frontend-nyx2fl2r6-nathaniel-simmons-projects.vercel.app'
   }));
 
 //Server status endpoint
