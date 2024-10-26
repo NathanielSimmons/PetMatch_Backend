@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const {DATABASE_URI} = process.env
 

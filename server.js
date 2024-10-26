@@ -20,12 +20,16 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: 'https://pet-match-frontend.vercel.app'
+    origin: 'http://localhost:5173'
   }));
 
+//Server status endpoint
+app.get('/', (req, res) => {
+  res.send('Server is Up!');
+});
 
 app.use('/api/users', userRoutes);
-app.use('/api', petRoutes);
+app.use('/api/pets', petRoutes);
 app.use('/api/match', matchRoutes);
 
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));

@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const bcrypt = require('bcryptjs');
+
 
 exports.signup = async (req, res) => {
   try {
@@ -9,8 +11,9 @@ exports.signup = async (req, res) => {
       return res.status(400).json({ error: 'User with this email already exists' });
     }
 
-    
-    const newUser = new User({ username, email, password, profilePic, aboutMe });
+    const hashedPassword = await bcrypt.hash(password, 10);
+    console.log(hashedPassword)
+    const newUser = new User({ username, email, password: hashedPassword, profilePic, aboutMe });
     await newUser.save();
 
     res.status(201).json({ message: 'User signed up successfully' });
@@ -23,13 +26,14 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
-
+console.log (email,password)
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ error: 'Invalid email' });
     }
 
-    if (user.password !== password) {
+    const passwordMatched = await bcrypt.compare(password, user.password);
+    if (!passwordMatched) {
       return res.status(401).json({ error: 'Invalid password' });
     }
     res.status(200).json(user);
