@@ -17,7 +17,7 @@ const petSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   },
-  pictures: String,
+  pictures: [String],
   likedBy: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

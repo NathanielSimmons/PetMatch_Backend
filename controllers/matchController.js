@@ -4,7 +4,8 @@ const Match = require('../models/Match');
 
 exports.getPetsForMatching = async (req, res) => {
   try {
-    const pets = await Pet.find();
+    const { userId } = req.params;
+    const pets = await Pet.find({ owner: { $ne: userId }, likedBy: { $ne: userId } });
     res.json(pets);
   } catch (error) {
     console.error('Error fetching pets for matching:', error);
@@ -59,16 +60,59 @@ exports.skipPet = async (req, res) => {
   }
 };
 
-exports.getMatchedPets = async (req, res) => {
-  const { userId } = req.query; 
- 
+// exports.getMatchedPets = async (req, res) => {
+//   const { userId } = req.query;
 
+
+//   try {
+//     const matches = await Match.find({ user: userId }).populate('pet');
+//     const matchedPets = matches.map((match) => match.pet);
+//     res.json(matchedPets);
+//   } catch (error) {
+//     console.error('Error fetching matched pets:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// };
+
+exports.getMatchedPets = async (req, res) => {
   try {
-    const matches = await Match.find({ user: userId }).populate('pet');
-    const matchedPets = matches.map((match) => match.pet);
-    res.json(matchedPets);
+    const { userId } = req.params;
+    const petsLikedByUser = await Pet.find({ 'likedBy': userId })
+      .populate('owner', '-password -pets -__v -createdAt -updatedAt')
+      .select('-likedBy -__v -createdAt -updatedAt');
+    // console.log('Pets liked by user: ', petsLikedByUser);
+    const mutualMatches = [];
+    for (let petLikedByUser of petsLikedByUser) {
+      const petOwner = petLikedByUser.owner._id;
+      const petsOfUserLikedByOwner = await Pet.find({ 'likedBy': petOwner, 'owner': userId });
+      if (petsOfUserLikedByOwner.length > 0) {
+        mutualMatches.push(petLikedByUser);
+      }
+    }
+    // console.log('Matched Pets: ', mutualMatches);
+    res.json(mutualMatches);
   } catch (error) {
     console.error('Error fetching matched pets:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
+
+const test = async () => {
+  const userId = "678856c7a752006382debf63";
+  const petsLikedByUser = await Pet.find({ 'likedBy': userId })
+    .populate('owner', '-password -pets -__v -createdAt -updatedAt')
+    .select('-likedBy -__v -createdAt -updatedAt');
+  console.log('Pets liked by user: ', petsLikedByUser);
+  const mutualMatches = [];
+  for (let petLikedByUser of petsLikedByUser) {
+    const petOwner = petLikedByUser.owner._id;
+    const petsOfUserLikedByOwner = await Pet.find({ 'likedBy': petOwner, 'owner': userId });
+    if (petsOfUserLikedByOwner.length > 0) {
+      mutualMatches.push(petLikedByUser);
+    }
+  }
+  console.log('Matched Pets: ', mutualMatches);
+};
+
+// test();

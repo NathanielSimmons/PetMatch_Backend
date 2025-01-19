@@ -19,9 +19,12 @@ const app = express();
 
 
 app.use(express.json());
-app.use(cors({
-    origin: 'https://pet-match-frontend.vercel.app'
-  }));
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'development' 
+    ? ['http://localhost:5173', 'https://pet-match-frontend.vercel.app'] 
+    : 'https://pet-match-frontend.vercel.app'
+};
+app.use(cors(corsOptions));
 
 //Server status endpoint
 app.get('/', (req, res) => {

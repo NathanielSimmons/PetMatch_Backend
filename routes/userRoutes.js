@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const upload = require('../config/multer');
 
-
-router.post('/signup', userController.signup);
+router.post('/signup', upload.single('profilePic'), userController.signup);
 
 router.post('/logout', userController.logout);
 
 router.post('/login', userController.login);
 
-router.get('/:id', userController.getUserById);
+router.get('/get-user/:id', userController.getUserById);
 
-router.put('/:id', userController.updateUserProfile);
+router.put('/update-user/:id', upload.single('profilePic'), userController.updateUserProfile);
 
 module.exports = router;

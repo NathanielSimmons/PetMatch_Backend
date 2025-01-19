@@ -3,15 +3,15 @@ const router = express.Router();
 const matchController = require('../controllers/matchController');
 
 
-router.get('/pets', matchController.getPetsForMatching);
+router.get('/get-pets-for-matching/:userId', matchController.getPetsForMatching);
 
 
-router.post('/:petId/like', matchController.likePet);
+router.post('/like-pet/:petId', matchController.likePet);
 
 
-router.post('/:petId/skip', matchController.skipPet);
+router.post('/skip-pet/:petId', matchController.skipPet);
 
 
-router.get('/matched-pets', matchController.getMatchedPets);
+router.get('/get-matched-pets/:userId', matchController.getMatchedPets);
 
 module.exports = router;
