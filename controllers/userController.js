@@ -17,7 +17,7 @@ exports.signup = async (req, res) => {
     if (file) {
       const fileName = `${uuidv4()}.${file.mimetype.split('/')[1]}`;
 
-      // Upload to AWS S3
+   
       const params = {
         Bucket: process.env.AWS_S3_BUCKET_NAME,
         Key: fileName,

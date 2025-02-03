@@ -130,7 +130,7 @@ exports.updatePet = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
+//  delete pet
 exports.deletePet = async (req, res) => {
   try {
     const petId = req.params.id;
@@ -147,3 +147,4 @@ exports.deletePet = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
